@@ -1489,6 +1489,9 @@ $('#modalEditorBtn').addEventListener('click', async ()=>{
     renderEditor();
     updateCaret();
 }
+  function getEditorText() {
+    return codeInput.value;
+}
 
 /* ---------- init ---------- */
 codeInput.value = DEFAULT_CODE;
