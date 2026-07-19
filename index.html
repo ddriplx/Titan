@@ -1493,6 +1493,17 @@ function getEditorText() {
     const sc = activeScript();
     return sc ? sc.code : "";
 }
+  function clearEditor() {
+    codeInput.value = "";
+
+    const sc = activeScript();
+
+    if (sc)
+        sc.code = "";
+
+    renderEditor();
+    updateCaret();
+}
 
 /* ---------- init ---------- */
 codeInput.value = DEFAULT_CODE;
