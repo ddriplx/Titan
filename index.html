@@ -1489,8 +1489,9 @@ $('#modalEditorBtn').addEventListener('click', async ()=>{
     renderEditor();
     updateCaret();
 }
-  function getEditorText() {
-    return codeInput.value;
+function getEditorText() {
+    const sc = activeScript();
+    return sc ? sc.code : "";
 }
 
 /* ---------- init ---------- */
