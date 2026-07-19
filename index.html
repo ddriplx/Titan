@@ -1477,6 +1477,18 @@ $('#modalEditorBtn').addEventListener('click', async ()=>{
   document.getElementById("open").addEventListener("click", () => {
     window.chrome.webview.postMessage("open");
 });
+  function loadScript(code)
+{
+    codeInput.value = code;
+
+    const sc = activeScript();
+
+    if(sc)
+        sc.code = code;
+
+    renderEditor();
+    updateCaret();
+}
 
 /* ---------- init ---------- */
 codeInput.value = DEFAULT_CODE;
