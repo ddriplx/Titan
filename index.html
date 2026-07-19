@@ -520,11 +520,24 @@
       </button>
     </nav>
     <div class="win-controls">
-      <button aria-label="Minimize"><svg width="10" height="10" viewBox="0 0 10 10"><line x1="1" y1="5" x2="9" y2="5" stroke="currentColor" stroke-width="1.4"/></svg></button>
-      <button aria-label="Maximize"><svg width="10" height="10" viewBox="0 0 10 10"><rect x="1.5" y="1.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
-      <button class="close" aria-label="Close"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1.4"/></svg></button>
-    </div>
-  </header>
+      <button id="minimize" aria-label="Minimize">
+          <svg width="10" height="10" viewBox="0 0 10 10">
+              <line x1="1" y1="5" x2="9" y2="5" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+      </button>
+
+      <button id="maximize" aria-label="Maximize">
+          <svg width="10" height="10" viewBox="0 0 10 10">
+              <rect x="1.5" y="1.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+      </button>
+
+      <button id="close" class="close" aria-label="Close">
+          <svg width="10" height="10" viewBox="0 0 10 10">
+              <path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+      </button>
+</div>
 
   <!-- ============ HOME ============ -->
   <main class="page active" id="page-home">
@@ -1473,6 +1486,17 @@ $('#modalEditorBtn').addEventListener('click', async ()=>{
   newScript(decodeEntities(modalScript.title||'Hub Script').slice(0,24), src);
   closeModal();
   goPage('editor');
+});
+  document.getElementById("minimize").addEventListener("click", () => {
+    window.chrome.webview.postMessage("minimize");
+});
+
+document.getElementById("maximize").addEventListener("click", () => {
+    window.chrome.webview.postMessage("maximize");
+});
+
+document.getElementById("close").addEventListener("click", () => {
+    window.chrome.webview.postMessage("close");
 });
   document.getElementById("open").addEventListener("click", () => {
     window.chrome.webview.postMessage("open");
