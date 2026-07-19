@@ -1474,6 +1474,9 @@ $('#modalEditorBtn').addEventListener('click', async ()=>{
   closeModal();
   goPage('editor');
 });
+  document.getElementById("open").addEventListener("click", () => {
+    window.chrome.webview.postMessage("open");
+});
 
 /* ---------- init ---------- */
 codeInput.value = DEFAULT_CODE;
