@@ -638,6 +638,50 @@
     display:none;text-align:left;
   }
   .auth-success.show{display:block;animation:pageIn .3s cubic-bezier(.22,1,.36,1);}
+    /* ============================================================
+     DEV INDICATOR - Green Dot (2 seconds)
+     ============================================================ */
+  .dev-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    border-radius: 30px;
+    padding: 8px 14px 8px 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    animation: devPopIn .3s cubic-bezier(.22, 1, .36, 1);
+  }
+  .dev-indicator.show {
+    display: flex;
+  }
+  @keyframes devPopIn {
+    from { opacity: 0; transform: translateY(20px) scale(.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .dev-indicator .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 12px rgba(74, 222, 128, 0.6);
+    animation: devPulse 1.2s ease-in-out infinite;
+  }
+  @keyframes devPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.9); }
+  }
+  .dev-indicator .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.3px;
+  }
 
   /* ============================================================
      AUTO-UPDATER OVERLAY
@@ -1396,6 +1440,13 @@
 
 <!-- Notification System -->
 <div class="notif-container" id="notifContainer"></div>
+  <!-- ============================================================
+     DEV INDICATOR - Green Dot (2 seconds)
+     ============================================================ -->
+<div class="dev-indicator" id="devIndicator">
+    <span class="dot"></span>
+    <span class="label">Developer Mode</span>
+</div>
 
 <script>
 /* ============================================================
@@ -2675,6 +2726,30 @@ updateOverlay.addEventListener('click', (e) => {
         updateOverlay.classList.remove('open');
         window.chrome.webview.postMessage('SKIP_UPDATE');
     }
+});
+  // ============================================================
+// DEV INDICATOR - Green Dot (2 seconds)
+// ============================================================
+function showDevIndicator() {
+    const indicator = document.getElementById('devIndicator');
+    if (!indicator) return;
+    
+    indicator.classList.add('show');
+    
+    setTimeout(() => {
+        indicator.classList.remove('show');
+    }, 2000);
+}
+
+// Listen for dev indicator trigger from C#
+window.chrome.webview.addEventListener('message', (event) => {
+    try {
+        const data = JSON.parse(event.data);
+        
+        if (data.type === 'SHOW_DEV_INDICATOR') {
+            showDevIndicator();
+        }
+    } catch (e) {}
 });
 </script>
 
