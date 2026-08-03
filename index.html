@@ -638,6 +638,210 @@
     display:none;text-align:left;
   }
   .auth-success.show{display:block;animation:pageIn .3s cubic-bezier(.22,1,.36,1);}
+
+  /* ============================================================
+     AUTO-UPDATER OVERLAY
+     ============================================================ */
+  .update-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn .3s cubic-bezier(.22,1,.36,1);
+  }
+  .update-overlay.open {
+    display: flex;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .update-modal {
+    width: 460px;
+    max-width: 92vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-radius: 20px;
+    padding: 28px 26px 24px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.8);
+    animation: modalPop .35s cubic-bezier(.22,1,.36,1);
+    position: relative;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(.92) translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .update-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+  }
+  .update-close:hover {
+    background: var(--surface-3);
+    color: var(--text);
+    border-color: var(--border-2);
+  }
+  .update-close svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+  .update-modal .update-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .update-modal .update-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+  .update-modal .update-icon svg { width: 22px; height: 22px; stroke: var(--accent); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .update-modal .update-title h1 { font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .update-modal .version-tag {
+    display: inline-block;
+    background: rgba(91,108,255,.15);
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 6px;
+  }
+  .update-modal .update-sub { font-size: 12px; color: var(--text-dim); font-weight: 500; margin-top: 2px; }
+  .update-modal .update-sub span { color: var(--accent); font-weight: 600; }
+
+  .update-status {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 14px 0 12px 0;
+  }
+  .update-status .status-row { display: flex; justify-content: space-between; align-items: center; }
+  #updateStatusText { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  #updateStatusText .spinner-small {
+    display: none;
+    width: 14px; height: 14px;
+    border: 2px solid var(--border-2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  #updateStatusText .spinner-small.active { display: inline-block; }
+  #updateProgressText { font-size: 13px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .update-status .progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,.06);
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .update-status .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), #7b8aff);
+    border-radius: 4px;
+    transition: width .4s cubic-bezier(.22,1,.36,1);
+  }
+
+  .update-changelog { margin: 14px 0 20px 0; }
+  .update-changelog .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .update-changelog .eyebrow svg { width: 13px; height: 13px; stroke: var(--text-faint); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .update-changelog .changelog-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    max-height: 100px;
+    overflow-y: auto;
+    font-weight: 500;
+  }
+  .update-changelog .changelog-content ul { list-style: none; padding: 0; margin: 0; }
+  .update-changelog .changelog-content ul li { padding: 2px 0; position: relative; padding-left: 18px; }
+  .update-changelog .changelog-content ul li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+  .update-btn {
+    width: 100%;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .25s cubic-bezier(.22,1,.36,1);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-ui);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .update-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent), #7b8aff);
+    opacity: 0;
+    transition: opacity .3s ease;
+    border-radius: 12px;
+  }
+  .update-btn:hover:not(:disabled)::before { opacity: 1; }
+  .update-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(91,108,255,.3); border-color: var(--accent); }
+  .update-btn:active:not(:disabled) { transform: translateY(0) scale(.98); }
+  .update-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+  .update-btn .btn-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; }
+  .update-btn .btn-content svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .update-btn .spinner-btn { display: none; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.2); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+  .update-btn.loading .spinner-btn { display: inline-block; }
+  .update-btn.loading .btn-content svg { display: none; }
+  .update-btn.loading .btn-label { opacity: .8; }
+  .update-btn.loading::before { opacity: 1; }
+  .update-btn.success::before { opacity: 1; background: linear-gradient(135deg, #4ade80, #5ce890); }
+  .update-btn.success:hover:not(:disabled) { box-shadow: 0 8px 24px rgba(74,222,128,.3); }
+  .update-btn.error::before { opacity: 1; background: linear-gradient(135deg, #e05d44, #f06a4e); }
+  .update-btn.error:hover:not(:disabled) { box-shadow: 0 8px 24px rgba(224,93,68,.3); }
 </style>
 </head>
 <body class="smooth-cursor">
@@ -2300,5 +2504,179 @@ showNotification(
 );
 // DELETE THIS AFTER VERIFYING
 </script>
+
+<!-- ============================================================
+     AUTO-UPDATER OVERLAY
+     ============================================================ -->
+<div class="update-overlay" id="updateOverlay">
+  <div class="update-modal">
+    <button class="update-close" id="updateClose" aria-label="Close">
+      <svg viewBox="0 0 24 24"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+    </button>
+
+    <div class="update-header">
+      <div class="update-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 8V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/>
+          <path d="M8 4v12a4 4 0 0 0 8 0V4"/>
+          <path d="M12 16v4"/>
+          <path d="M8 20h8"/>
+        </svg>
+      </div>
+      <div class="update-title">
+        <h1>
+          Update Available
+          <span class="version-tag" id="updateVersionTag">v1.0.1</span>
+        </h1>
+        <div class="update-sub">
+          Current: v<span id="updateCurrentVer">1.0.0</span> → New: v<span id="updateNewVer">1.0.1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="update-status">
+      <div class="status-row">
+        <div id="updateStatusText">
+          <span class="spinner-small" id="updateSpinner"></span>
+          <span id="updateStatusMessage">Ready to update</span>
+        </div>
+        <span id="updateProgressText">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="updateProgressBar"></div>
+      </div>
+    </div>
+
+    <div class="update-changelog">
+      <div class="eyebrow">
+        <svg viewBox="0 0 24 24"><path d="M4 8V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M8 4v12a4 4 0 0 0 8 0V4"/><path d="M12 16v4"/><path d="M8 20h8"/></svg>
+        What's New
+      </div>
+      <div class="changelog-content" id="updateChangelog">
+        <ul>
+          <li>New UI design</li>
+          <li>Improved performance</li>
+          <li>Bug fixes and stability</li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="btn-primary update-btn" id="updateBtn">
+      <span class="spinner-btn"></span>
+      <span class="btn-content">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 12.5l3 3 10-10"/>
+          <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/>
+        </svg>
+        <span class="btn-label">Update Now</span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     AUTO-UPDATER JAVASCRIPT
+     ============================================================ -->
+<script>
+// ============================================================
+// AUTO-UPDATER
+// ============================================================
+const updateOverlay = document.getElementById('updateOverlay');
+const updateBtn = document.getElementById('updateBtn');
+const updateClose = document.getElementById('updateClose');
+const updateStatus = document.getElementById('updateStatusMessage');
+const updateSpinner = document.getElementById('updateSpinner');
+const updateProgressText = document.getElementById('updateProgressText');
+const updateProgressBar = document.getElementById('updateProgressBar');
+const updateVersionTag = document.getElementById('updateVersionTag');
+const updateCurrentVer = document.getElementById('updateCurrentVer');
+const updateNewVer = document.getElementById('updateNewVer');
+const updateChangelog = document.getElementById('updateChangelog');
+let updateData = {};
+let isUpdating = false;
+
+// Listen for update messages from C#
+window.chrome.webview.addEventListener('message', (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === 'UPDATE_DATA') {
+        updateData = data;
+        updateVersionTag.textContent = `v${data.newVersion}`;
+        updateCurrentVer.textContent = data.currentVersion;
+        updateNewVer.textContent = data.newVersion;
+
+        if (data.changelog) {
+            const items = data.changelog.split('\n').filter(line => line.trim());
+            const list = updateChangelog.querySelector('ul');
+            list.innerHTML = items.map(item => `<li>${item.replace('•', '').trim()}</li>`).join('');
+        }
+
+        // Show the update overlay
+        updateOverlay.classList.add('open');
+    }
+
+    if (data.type === 'PROGRESS') {
+        const percent = Math.round(data.percentage);
+        updateProgressBar.style.width = percent + '%';
+        updateProgressText.textContent = percent + '%';
+    }
+
+    if (data.type === 'STATUS') {
+        updateStatus.textContent = data.message;
+        if (data.message.includes('Downloading') || data.message.includes('Installing')) {
+            updateSpinner.classList.add('active');
+        } else {
+            updateSpinner.classList.remove('active');
+        }
+    }
+
+    if (data.type === 'DOWNLOAD_COMPLETE') {
+        updateBtn.classList.remove('loading');
+        updateBtn.classList.add('success');
+        updateBtn.querySelector('.btn-label').textContent = 'Installed! Restarting...';
+        updateBtn.disabled = true;
+        updateStatus.textContent = '✅ Update installed! Restarting...';
+        updateSpinner.classList.remove('active');
+        updateProgressBar.style.width = '100%';
+        updateProgressText.textContent = '100%';
+    }
+
+    if (data.type === 'ERROR') {
+        updateBtn.classList.remove('loading');
+        updateBtn.classList.add('error');
+        updateBtn.querySelector('.btn-label').textContent = 'Retry';
+        updateBtn.disabled = false;
+        updateStatus.textContent = '❌ ' + data.message;
+        updateSpinner.classList.remove('active');
+    }
+});
+
+updateBtn.addEventListener('click', () => {
+    if (isUpdating) return;
+    isUpdating = true;
+
+    updateBtn.classList.add('loading');
+    updateBtn.querySelector('.btn-label').textContent = 'Downloading...';
+    updateBtn.disabled = true;
+    updateStatus.textContent = '📥 Downloading update...';
+    updateSpinner.classList.add('active');
+
+    window.chrome.webview.postMessage('START_UPDATE');
+});
+
+updateClose.addEventListener('click', () => {
+    updateOverlay.classList.remove('open');
+    window.chrome.webview.postMessage('SKIP_UPDATE');
+});
+
+// Close overlay when clicking outside the modal
+updateOverlay.addEventListener('click', (e) => {
+    if (e.target === updateOverlay) {
+        updateOverlay.classList.remove('open');
+        window.chrome.webview.postMessage('SKIP_UPDATE');
+    }
+});
+</script>
+
 </body>
 </html>
